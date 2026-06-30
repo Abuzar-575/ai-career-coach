@@ -7,7 +7,7 @@ export const analyzeResume = async (file, jobDescription) => {
   formData.append('file', file)
   formData.append('job_description', jobDescription)
 
-  const response = await axios.post(`${API_URL}/generate-questions`, formData, {
+  const response = await axios.post(`${API_URL}/full-analysis`, formData, {
     headers: {
       'Content-Type': 'multipart/form-data'
     }

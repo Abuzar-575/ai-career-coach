@@ -7,6 +7,10 @@ import { analyzeResume } from "./services/api";
 import ATSScore from "./components/ATSScore";
 import SkillsCard from "./components/SkillsCard";
 import InterviewQuestions from "./components/InterviewQuestions";
+import ResumeSummary from "./components/ResumeSummary";
+import BulletImprovements from "./components/BulletImprovements";
+import LearningRoadmap from "./components/LearningRoadmap";
+
 
 
 function App() {
@@ -48,18 +52,22 @@ function App() {
           />
         </div>
 
-        {result && (
-          <div className="mt-8 space-y-8">
-            <ATSScore score={result.ats_score} />
+{result && (
+  <div className="mt-8 space-y-8">
+    <ATSScore score={result.ats_score} />
+    
+    <ResumeSummary summary={result.summary} />
 
-            <div className="grid md:grid-cols-2 gap-8">
-              <SkillsCard title="✅ Matched Skills" skills={result.matched_skills || []} type="matched" />
-              <SkillsCard title="❌ Missing Skills" skills={result.missing_skills} type="missing" />
-            </div>
+    <div className="grid md:grid-cols-2 gap-8">
+      <SkillsCard title="Matched Skills" skills={result.matched_skills || []} type="matched" />
+      <SkillsCard title="Missing Skills" skills={result.missing_skills} type="missing" />
+    </div>
 
-            <InterviewQuestions questions={result.questions} />
-          </div>
-        )}
+    <InterviewQuestions questions={result.questions} />
+    <BulletImprovements improvements={result.bullet_improvements} />
+    <LearningRoadmap roadmap={result.roadmap} />
+  </div>
+)}
 
       </div>
 
