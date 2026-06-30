@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 from groq import Groq
 
@@ -17,12 +18,9 @@ Return only a numbered list of 10 questions, nothing else."""
 
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
+        messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
     )
-
     return response.choices[0].message.content
 
 
@@ -46,7 +44,6 @@ Be direct and specific, not generic. No bullet points, just a short paragraph.""
         messages=[{"role": "user", "content": prompt}],
         temperature=0.6,
     )
-
     return response.choices[0].message.content
 
 
@@ -67,9 +64,7 @@ Do this for exactly 3 bullet points. No extra commentary."""
         messages=[{"role": "user", "content": prompt}],
         temperature=0.7,
     )
-
     return response.choices[0].message.content
-
 
 
 def generate_learning_roadmap(missing_skills: list):
@@ -84,12 +79,36 @@ Week X: [Skill Name]
 - What to learn: [brief description]
 - Resource: [one specific real resource - YouTube channel, official docs, or course name]
 
-Keep it practical and realistic, one skill per week maximum 4 weeks total."""
+Keep it practical and realistic, one skill per week maximum 5 weeks total. if there are more skills
+than 5 than you have to pick most importants skills among all missing skills."""
 
     response = client.chat.completions.create(
         model="llama-3.3-70b-versatile",
         messages=[{"role": "user", "content": prompt}],
         temperature=0.6,
     )
-
     return response.choices[0].message.content
+
+
+def generate_recommendation(resume_text: str, job_description: str, ats_score: float) -> dict:
+    prompt = f"""You are a senior recruiter reviewing a candidate's resume against a job description.
+ATS Score: {ats_score:.1f}%
+
+Resume:
+{resume_text[:1500]}
+
+Job Description:
+{job_description[:1000]}
+
+Return ONLY valid JSON, no explanation, no markdown, no backticks:
+{{"stars": <integer 1-5>, "strength": "<one of: Excellent Match, Good Match, Moderate Match, Weak Match, Poor Match>", "verdict": "<one of: YES, NO, MAYBE>", "reason": "<one sentence explaining the verdict>"}}"""
+
+    response = client.chat.completions.create(
+        model="llama-3.3-70b-versatile",
+        messages=[{"role": "user", "content": prompt}],
+        temperature=0.3,
+    )
+    raw = response.choices[0].message.content.strip()
+    # Strip markdown fences if model ignores instructions
+    raw = raw.replace("```json", "").replace("```", "").strip()
+    return json.loads(raw)

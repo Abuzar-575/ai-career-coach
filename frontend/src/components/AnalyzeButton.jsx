@@ -3,9 +3,9 @@ function AnalyzeButton({ onAnalyze, loading, disabled }) {
     <button
       onClick={onAnalyze}
       disabled={disabled || loading}
-      className="w-full bg-indigo-600 text-white rounded-3xl py-5 text-lg font-bold hover:bg-indigo-700 transition disabled:bg-slate-300 disabled:cursor-not-allowed"
+      className="w-full bg-forest text-paper rounded-2xl py-5 text-lg font-display font-semibold hover:bg-forest/90 transition disabled:bg-slate/20 disabled:text-slate disabled:cursor-not-allowed"
     >
-      {loading ? "Analyzing..." : "Analyze Resume"}
+      {loading ? "Analyzing..." : "Analyze resume"}
     </button>
   );
 }

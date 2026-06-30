@@ -1,86 +1,57 @@
-import { HiSparkles } from "react-icons/hi2";
-
-function Hero() {
+export default function Hero() {
   return (
-    <section className="border-b bg-white">
+    <div className="bg-paper">
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
+      {/* ── Wordmark nav ── */}
+      <nav className="px-6 py-4 border-b border-ink/10 flex items-center justify-between">
+        <span className="font-display text-lg font-semibold text-ink tracking-tight">
+          AI Career Coach
+        </span>
+        <span className="text-xs text-slate font-mono uppercase tracking-widest hidden md:block">
+          Resume · ATS · Interview Prep
+        </span>
+      </nav>
 
-        <div className="flex items-center gap-3">
-
-          <div className="bg-indigo-600 text-white h-12 w-12 rounded-2xl flex items-center justify-center text-2xl">
-            🤖
+      {/* ── Hero body ── */}
+      <div className="max-w-6xl mx-auto px-6 py-16 grid md:grid-cols-[1.3fr_1fr] gap-10 items-center">
+        <div>
+          <div className="inline-block bg-forest text-forest-light text-xs font-medium px-3 py-1.5 rounded mb-5 tracking-wide">
+            AI-powered analysis
           </div>
-
-          <div>
-            <h2 className="font-bold text-2xl">AI Career Coach</h2>
-            <p className="text-slate-500">Resume Intelligence Platform</p>
-          </div>
-
-        </div>
-
-        <div className="mt-16">
-
-          <div className="inline-flex items-center gap-2 bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full">
-            <HiSparkles />
-            AI Powered Analysis
-          </div>
-
-          <h1 className="mt-6 text-6xl font-black leading-tight text-slate-900">
-            Get More Interviews,
-            <br />
-            <span className="text-indigo-600">Not More Rejections.</span>
+          <h1 className="font-display text-4xl md:text-5xl font-semibold leading-tight text-ink mb-4">
+            Know exactly<br />where you stand.
           </h1>
-
-          <p className="mt-6 text-xl text-slate-500 max-w-3xl leading-9">
-            Upload your resume, compare it against any job description,
-            discover missing skills, improve your ATS score and prepare
-            for interviews with AI.
+          <p className="text-slate text-[15px] leading-relaxed max-w-md mb-6">
+            Upload your resume, paste any job description, and get a precise
+            match score, skill gaps, and an interview prep plan.
           </p>
-
         </div>
 
-        <div className="mt-12 grid md:grid-cols-3 gap-6">
-
-          <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
-            <h3 className="font-bold text-lg mb-4">Quick Features</h3>
-            <div className="space-y-3">
-              <Feature title="ATS Analysis" />
-              <Feature title="Skill Gap Detection" />
-              <Feature title="Interview Questions" />
-              <Feature title="Learning Roadmap" />
-            </div>
-          </div>
-
-          <div className="bg-slate-50 rounded-3xl p-6 border border-slate-100">
-            <h3 className="font-bold text-lg mb-3">How it works</h3>
-            <p className="text-slate-500 text-sm leading-6">
-              Our AI scans your resume, compares it semantically against the job description using NLP, and identifies exact skill gaps — no generic keyword matching.
-            </p>
-          </div>
-
-          <div className="rounded-3xl bg-gradient-to-br from-indigo-600 to-violet-600 text-white p-6">
-            <h3 className="text-lg font-bold">Ready?</h3>
-            <p className="opacity-90 mt-2 text-sm leading-6">
-              Upload your resume and receive an AI-powered analysis in seconds.
-            </p>
-          </div>
-
+        <div className="bg-ink rounded-xl p-7 flex flex-col items-center">
+          <svg width="140" height="140" viewBox="0 0 140 140">
+            <circle cx="70" cy="70" r="58" fill="none" stroke="#2B3440" strokeWidth="10" />
+            <circle
+              cx="70" cy="70" r="58" fill="none"
+              stroke="#B8854A" strokeWidth="10" strokeLinecap="round"
+              strokeDasharray="364" strokeDashoffset="180"
+              transform="rotate(-90 70 70)"
+            />
+            {/* x="70" y="70" + dominantBaseline="central" = perfect center */}
+            <text
+              x="70" y="66"
+              textAnchor="middle"
+              dominantBaseline="central"
+              fontSize="22" fontWeight="600" fill="#F7F5EF"
+              fontFamily="'JetBrains Mono', monospace"
+            >
+              --
+            </text>
+            <text x="70" y="84" textAnchor="middle" fontSize="11" fill="#8A8F98">
+              your score awaits
+            </text>
+          </svg>
         </div>
-
       </div>
-
-    </section>
-  );
-}
-
-function Feature({ title }) {
-  return (
-    <div className="flex items-center gap-2 text-sm">
-      <div className="h-2 w-2 rounded-full bg-green-500"></div>
-      <p>{title}</p>
     </div>
   );
 }
-
-export default Hero;

@@ -8,7 +8,8 @@ from ai_generator import (
     generate_interview_questions,
     generate_resume_summary,
     improve_resume_bullets,
-    generate_learning_roadmap
+    generate_learning_roadmap,
+    generate_recommendation,
 )
 
 
@@ -28,26 +29,18 @@ app.add_middleware(
 
 async def get_pdf_text(file: UploadFile):
     if file.content_type != "application/pdf":
-        raise HTTPException(
-            status_code=400,
-            detail="Only PDF files are allowed."
-        )
-
+        raise HTTPException(status_code=400, detail="Only PDF files are allowed.")
     contents = await file.read()
-
     return extract_pdf_text(contents)
 
 @app.get("/")
 def root():
-    return {
-        "message": "AI Career Coach API is running"
-    }
+    return {"message": "AI Career Coach API is running"}
 
 @app.post("/extract-text")
 async def extract_text(file: UploadFile = File(...)):
     text = await get_pdf_text(file)
     return {"text": text}
-
 
 @app.post("/extract-skills")
 async def extract_skills(file: UploadFile = File(...)):
@@ -55,12 +48,10 @@ async def extract_skills(file: UploadFile = File(...)):
     skills = extract_skills_from_text(text)
     return {"skills": skills}
 
-
 @app.post("/extract-jd-skills")
 async def extract_jd_skills(jd: JobDescription):
     skills = extract_skills_from_text(jd.text)
     return {"skills": skills}
-
 
 @app.post("/ats-score")
 async def ats_score(
@@ -73,8 +64,6 @@ async def ats_score(
     result = calculate_ats_score(resume_skills, jd_skills)
     return result
 
-
-
 @app.post("/full-analysis")
 async def full_analysis(
     file: UploadFile = File(...),
@@ -84,12 +73,13 @@ async def full_analysis(
     resume_skills = extract_skills_from_text(resume_text)
     jd_skills = extract_skills_from_text(job_description)
     result = calculate_ats_score(resume_skills, jd_skills)
-    
+
     questions = generate_interview_questions(job_description, result["missing_skills"])
     summary = generate_resume_summary(resume_text, job_description, result["matched_skills"], result["missing_skills"])
     bullet_improvements = improve_resume_bullets(resume_text)
     roadmap = generate_learning_roadmap(result["missing_skills"])
-    
+    recommendation = generate_recommendation(resume_text, job_description, result["score"])
+
     return {
         "ats_score": result["score"],
         "matched_skills": result["matched_skills"],
@@ -97,5 +87,6 @@ async def full_analysis(
         "questions": questions,
         "summary": summary,
         "bullet_improvements": bullet_improvements,
-        "roadmap": roadmap
+        "roadmap": roadmap,
+        "recommendation": recommendation,
     }

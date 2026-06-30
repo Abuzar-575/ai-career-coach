@@ -9,33 +9,30 @@ function InterviewQuestions({ questions }) {
     .filter(q => q.trim().length > 0);
 
   return (
-    <div className="bg-white rounded-3xl border shadow-sm overflow-hidden">
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between p-8"
-      >
+    <div className="bg-white rounded-2xl border-l-4 border-l-slate border border-slate/15 overflow-hidden">
+      <button onClick={() => setIsOpen(!isOpen)} className="w-full flex items-center justify-between p-8">
         <div className="flex items-center gap-3">
-          <div className="h-10 w-10 rounded-full bg-indigo-100 text-indigo-600 flex items-center justify-center">
+          <div className="h-10 w-10 rounded-full bg-paper text-slate flex items-center justify-center">
             <FiMessageSquare />
           </div>
-          <h3 className="font-bold text-xl text-slate-800">Interview Questions</h3>
+          <h3 className="font-display text-xl font-semibold text-ink">Interview questions</h3>
         </div>
         <div className="flex items-center gap-3">
-          <span className="text-sm px-3 py-1 rounded-full bg-slate-100 text-slate-600">
+          <span className="text-xs px-3 py-1 rounded-full bg-paper text-slate font-medium">
             {questionList.length}
           </span>
-          <FiChevronDown className={`text-slate-400 transition-transform ${isOpen ? "rotate-180" : ""}`} />
+          <FiChevronDown className={`text-slate transition-transform ${isOpen ? "rotate-180" : ""}`} />
         </div>
       </button>
 
       {isOpen && (
         <div className="px-8 pb-8 space-y-3">
           {questionList.map((question, index) => (
-            <div key={index} className="flex gap-4 p-4 bg-slate-50 rounded-2xl">
-              <div className="bg-slate-900 text-white h-7 w-7 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0">
+            <div key={index} className="flex gap-4 p-4 bg-paper rounded-xl">
+              <div className="bg-ink text-paper h-7 w-7 rounded-full flex items-center justify-center text-sm font-mono flex-shrink-0">
                 {index + 1}
               </div>
-              <p className="text-slate-700 pt-0.5 text-sm">{question.trim()}</p>
+              <p className="text-ink pt-0.5 text-sm">{question.trim()}</p>
             </div>
           ))}
         </div>
