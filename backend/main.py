@@ -4,6 +4,7 @@ from ats_scorer import calculate_ats_score
 from pdf_parser import extract_pdf_text
 from skill_extractor import extract_skills_from_text
 from pydantic import BaseModel
+from interview_generator import generate_interview_questions
 
 class JobDescription(BaseModel):
     text: str
@@ -65,3 +66,22 @@ async def ats_score(
     jd_skills = extract_skills_from_text(job_description)
     result = calculate_ats_score(resume_skills, jd_skills)
     return result
+
+
+@app.post("/generate-questions")
+async def generate_questions(
+    file: UploadFile = File(...),
+    job_description: str = Form(...)
+):
+    resume_text = await get_pdf_text(file)
+    resume_skills = extract_skills_from_text(resume_text)
+    jd_skills = extract_skills_from_text(job_description)
+    result = calculate_ats_score(resume_skills, jd_skills)
+    
+    questions = generate_interview_questions(job_description, result["missing_skills"])
+    
+    return {
+        "ats_score": result["score"],
+        "missing_skills": result["missing_skills"],
+        "questions": questions
+    }
