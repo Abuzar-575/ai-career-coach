@@ -82,6 +82,7 @@ async def generate_questions(
     
     return {
         "ats_score": result["score"],
+        "matched_skills": result["matched_skills"],
         "missing_skills": result["missing_skills"],
         "questions": questions
     }
