@@ -4,7 +4,7 @@ from sentence_transformers import SentenceTransformer, util
 model = SentenceTransformer("all-MiniLM-L6-v2")
 
 
-def semantic_match(resume_skills, jd_skills, threshold=0.68):
+def semantic_match(resume_skills, jd_skills, threshold=0.70):
     matched = []
     missing = []
 
